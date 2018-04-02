@@ -1,0 +1,14 @@
+<div title="Select Customer">
+    <div class='row headers'>
+         <div class='col-md-4'></div>
+            <div class='col-md-4'>
+                Please select customer to place order! 
+            </div>        
+            <div class='col-md-4 selector'>            
+            <select (change)="onSelect($event.target.value)">
+                <option *ngFor="let customer of customers"  [value]="customer.CustomerId">{{customer.Name}}
+                </option>
+            </select>
+            </div>
+    </div>
+</div>

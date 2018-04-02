@@ -1,0 +1,58 @@
+<div class='panel panel-primary'>
+    <div class='panel-heading'>       
+        <div class='row'>
+            <div class='col-md-4'> {{pageTitle}}</div>
+            <div class='col-md-3'></div> 
+            <div class='col-md-5'>{{customerMessage}}</div>            
+        </div>
+    </div>
+    <cookie-customer (customerSelected)='onCustomerSelected($event)'></cookie-customer>    
+    <div class='panel-body'>
+        <div class='row'>
+            <div class='col-md-2'>Filter by:</div>
+            <div class='col-md-4'>
+                <input type='text' [(ngModel)]='listFilter' />
+            </div>
+        </div>       
+        <div class='table-responsive'>
+            <table class='table'
+                    *ngIf='products && products.length'>
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Product Id</th>
+                        <th>Available items in stock</th>
+                        <th>Price</th> 
+                        <th>Select</th>                       
+                        <th>Number of items</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor='let product of filteredProducts'>                       
+                        <td>                           
+                            {{product.ProductName}}
+						</td>
+                        <td>{{ product.ProductId }}</td>
+                        <td>{{ product.ProductStocksAvailable }}</td>
+                        <td>{{ product.Price | currency:'INR':true:'1.2-2'}}</td>                        
+                        <td> <input type="checkbox" [ngClass]="product.IsOderPlaced ? 'added-to-cart': 'add-to-cart'" 
+                                                       [(ngModel)]='product.IsOderPlaced'/>                                                           
+                            </td>
+                        <td>
+                            <input type="number" name="productCount" [(ngModel)]= 'product.OrderQuantity'
+                             min="1" max={{product.ProductStocksAvailable}} [style.width.px]='100'>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class='panel-footer'>
+            <a class='btn-info btn-lg' (click)='onPlaceOrder(products)' style='width:200px'>
+                <i class='glyphicon glyphicon-shopping-cart'></i>  Place Order
+            </a>
+        </div>
+</div>
+<div *ngIf='errorMessage' class='alert alert-danger'>
+    Error: {{ errorMessage }}
+</div>
