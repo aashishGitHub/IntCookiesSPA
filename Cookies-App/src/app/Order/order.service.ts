@@ -6,12 +6,6 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 
-// const httpOptions = {
-//     headers: new HttpHeaders({
-//       'Content-Type':  'application/json',
-//       'Authorization': 'my-auth-token'
-//     })
-
 @Injectable()
 export class OrderService {
     //private _orderApiUrl = 'http://localhost:63581/api/OrderApi';
@@ -20,10 +14,16 @@ export class OrderService {
     constructor(private _http: HttpClient) { }
    
 
-    placeOrder(order): Observable<any> {debugger;
+    placeOrder(order): Observable<any> {
+       let httpOptions = {
+            headers: new HttpHeaders({
+              'Content-Type':  'application/json'
+            })
+        };
        return this._http.post<string>(
            this._orderApiUrl, 
-           JSON.stringify(order)                   
+           JSON.stringify(order),
+           httpOptions
         )
             .do(data => console.log('All: ' + JSON.stringify(data)))
             .catch(this.handleError);
